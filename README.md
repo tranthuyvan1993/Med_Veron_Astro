@@ -1,16 +1,12 @@
 # MedNova Medical Device Shop (Astro)
 
-Project demo bán thiết bị y tế bằng Astro, hỗ trợ:
-- Catalog sản phẩm mẫu có thông số kỹ thuật và giá tham khảo
-- Trang chi tiết cho từng sản phẩm (`/products/[id]`)
-- Giỏ hàng client-side (localStorage)
-- Chuyển ngôn ngữ Anh - Việt (UTF-8)
-- Sẵn cấu hình deploy cho Cloudflare Pages và Vercel
-
-## Yêu cầu
-
-- Node.js `>=22.12.0`
-- npm
+Demo web bán thiết bị y tế bằng Astro, có:
+- Home giới thiệu
+- Trang sản phẩm riêng (`/products`)
+- Trang giới thiệu công ty (`/about`)
+- Trang chi tiết sản phẩm (`/products/[id]`)
+- Admin mini chỉnh JSON sản phẩm (`/admin`)
+- Song ngữ Anh - Việt
 
 ## Chạy local
 
@@ -26,38 +22,39 @@ npm run build
 npm run preview
 ```
 
-## Deploy Cloudflare Pages
+## Cloudflare Pages (quan trọng)
 
-1. Đăng nhập Cloudflare:
-   ```bash
-   npx wrangler login
-   ```
-2. Build và deploy:
-   ```bash
-   npm run deploy:cloudflare
-   ```
+Lỗi bạn gặp là do dùng sai lệnh deploy:
+- Sai: `wrangler deploy` (dùng cho Workers)
+- Đúng với Pages: `wrangler pages deploy`
 
-Lệnh deploy hiện dùng project name `medical-device-shop-astro`.
-Nếu bạn dùng tên project khác trên Cloudflare Pages, sửa trong `package.json`.
+### Cấu hình đúng trên Cloudflare dashboard
 
-## Deploy Vercel
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Deploy command (nếu có field này): `npm run deploy`
 
-1. Đăng nhập Vercel:
-   ```bash
-   npx vercel login
-   ```
-2. Build và deploy production:
-   ```bash
-   npm run deploy:vercel
-   ```
+`npm run deploy` trong repo này đã map sẵn tới:
+
+```bash
+wrangler pages deploy ./dist --project-name medical-device-shop-astro
+```
+
+Nếu bạn dùng Pages Git Integration thuần (không cần deploy command), có thể để trống Deploy command.
+
+## Vercel
+
+```bash
+npm run deploy:vercel
+```
 
 ## File chính
 
-- `src/pages/index.astro`: trang catalog chính
-- `src/pages/products/[id].astro`: trang chi tiết sản phẩm
-- `src/components/SiteHeader.astro`: header + language switch + cart trigger
-- `src/components/CartPanel.astro`: panel giỏ hàng
-- `public/site.js`: logic giỏ hàng + chuyển ngôn ngữ
-- `src/data/products.ts`: dữ liệu sản phẩm demo
-- `wrangler.toml`: cấu hình Cloudflare Pages
-- `vercel.json`: cấu hình Vercel
+- `src/pages/index.astro`
+- `src/pages/products/index.astro`
+- `src/pages/products/[id].astro`
+- `src/pages/about.astro`
+- `src/pages/admin.astro`
+- `public/site.js`
+- `src/data/products.ts`
+- `wrangler.toml`
