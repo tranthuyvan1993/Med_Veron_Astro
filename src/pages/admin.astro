@@ -1,0 +1,247 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { products } from "../data/products";
+
+const titleVi = "Quản trị dữ liệu sản phẩm | MedNova Instruments";
+const titleEn = "Product Data Admin | MedNova Instruments";
+---
+
+<BaseLayout
+  title={titleVi}
+  description="Trang admin mini để chỉnh dữ liệu sản phẩm JSON và lưu cấu hình cục bộ."
+>
+  <main class="page-shell" data-title-vi={titleVi} data-title-en={titleEn}>
+    <div class="surface">
+      <SiteHeader activePath="admin" showCart={false} showAdminLink={false} />
+
+      <section class="admin-hero">
+        <span class="eyebrow" data-en="Mini Admin" data-vi="Trang quản trị mini">Trang quản trị mini</span>
+        <h1 data-en="Edit Product JSON Data" data-vi="Chỉnh dữ liệu JSON sản phẩm">
+          Chỉnh dữ liệu JSON sản phẩm
+        </h1>
+        <p
+          data-en="Update catalog content in JSON format and save it locally in your browser. This is ideal for quick demos and content testing."
+          data-vi="Cập nhật nội dung catalog theo định dạng JSON và lưu cục bộ trên trình duyệt. Phù hợp để demo nhanh và thử nội dung."
+        >
+          Cập nhật nội dung catalog theo định dạng JSON và lưu cục bộ trên trình duyệt. Phù hợp để demo nhanh và thử nội dung.
+        </p>
+      </section>
+
+      <section class="admin-editor">
+        <div class="admin-toolbar">
+          <a class="ghost-btn" href="/" data-en="Back to Home" data-vi="Về trang chủ">Về trang chủ</a>
+          <button type="button" class="ghost-btn" data-admin-action="validate" data-en="Validate JSON" data-vi="Kiểm tra JSON">
+            Kiểm tra JSON
+          </button>
+          <button type="button" class="btn btn-primary btn-small" data-admin-action="save" data-en="Save Local" data-vi="Lưu cục bộ">
+            Lưu cục bộ
+          </button>
+          <button type="button" class="ghost-btn" data-admin-action="reset" data-en="Reset Default" data-vi="Khôi phục mặc định">
+            Khôi phục mặc định
+          </button>
+          <button type="button" class="ghost-btn" data-admin-action="download" data-en="Download JSON" data-vi="Tải JSON">
+            Tải JSON
+          </button>
+        </div>
+
+        <textarea
+          class="admin-json"
+          id="admin-json"
+          spellcheck="false"
+          aria-label="Product JSON"
+        ></textarea>
+
+        <p
+          class="admin-status"
+          data-admin-status
+          data-en="Ready. You can validate and save product JSON."
+          data-vi="Sẵn sàng. Bạn có thể kiểm tra và lưu JSON sản phẩm."
+        >
+          Sẵn sàng. Bạn có thể kiểm tra và lưu JSON sản phẩm.
+        </p>
+
+        <div class="admin-summary">
+          <p>
+            <span data-en="Products" data-vi="Số sản phẩm">Số sản phẩm</span>:
+            <strong data-admin-count>0</strong>
+          </p>
+          <p>
+            <span data-en="Categories" data-vi="Danh mục">Danh mục</span>:
+            <strong data-admin-categories>-</strong>
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script type="application/json" id="products-default-data" set:html={JSON.stringify(products, null, 2)}></script>
+  <script is:inline>
+    const STORAGE_KEY = "mednova-products-v1";
+    const LANG_KEY = "mednova-lang";
+    const jsonNode = document.getElementById("products-default-data");
+    const editor = document.getElementById("admin-json");
+    const statusNode = document.querySelector("[data-admin-status]");
+    const countNode = document.querySelector("[data-admin-count]");
+    const categoriesNode = document.querySelector("[data-admin-categories]");
+    const buttons = Array.from(document.querySelectorAll("[data-admin-action]"));
+    let lastData = [];
+
+    function parseJSON(value, fallback) {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return fallback;
+      }
+    }
+
+    function currentLang() {
+      const saved = localStorage.getItem(LANG_KEY);
+      return saved === "en" ? "en" : "vi";
+    }
+
+    function setStatus(vi, en, tone) {
+      if (!statusNode) return;
+      statusNode.dataset.vi = vi;
+      statusNode.dataset.en = en;
+      statusNode.classList.remove("success", "error");
+      if (tone) statusNode.classList.add(tone);
+      statusNode.textContent = currentLang() === "en" ? en : vi;
+    }
+
+    function isLocalizedText(value) {
+      return (
+        value &&
+        typeof value === "object" &&
+        typeof value.en === "string" &&
+        typeof value.vi === "string"
+      );
+    }
+
+    function isValidProduct(product) {
+      return (
+        product &&
+        typeof product === "object" &&
+        typeof product.id === "string" &&
+        typeof product.sku === "string" &&
+        typeof product.icon === "string" &&
+        typeof product.priceUSD === "number" &&
+        typeof product.priceVND === "number" &&
+        isLocalizedText(product.category) &&
+        isLocalizedText(product.name) &&
+        isLocalizedText(product.summary) &&
+        Array.isArray(product.specs) &&
+        product.specs.every((spec) => isLocalizedText(spec?.label) && isLocalizedText(spec?.value))
+      );
+    }
+
+    function validateProducts(value) {
+      const data = parseJSON(value, null);
+      if (!Array.isArray(data) || data.length === 0) {
+        return { ok: false, messageVi: "JSON phải là mảng sản phẩm và không được rỗng.", messageEn: "JSON must be a non-empty product array." };
+      }
+
+      if (!data.every(isValidProduct)) {
+        return {
+          ok: false,
+          messageVi: "Có sản phẩm thiếu trường bắt buộc (id, sku, name, summary, specs, price...).",
+          messageEn: "Some products are missing required fields (id, sku, name, summary, specs, price...).",
+        };
+      }
+
+      const ids = data.map((item) => item.id);
+      if (new Set(ids).size !== ids.length) {
+        return { ok: false, messageVi: "ID sản phẩm bị trùng.", messageEn: "Duplicate product IDs found." };
+      }
+
+      return { ok: true, data };
+    }
+
+    function updateSummary(data) {
+      lastData = Array.isArray(data) ? data : [];
+      if (!countNode || !categoriesNode) return;
+      countNode.textContent = String(lastData.length);
+      const categories = [...new Set(lastData.map((item) => item.category[currentLang()]))];
+      categoriesNode.textContent = categories.join(", ");
+    }
+
+    function loadInitialData() {
+      const fallback = jsonNode?.textContent ?? "[]";
+      const local = localStorage.getItem(STORAGE_KEY);
+      const source = local ?? fallback;
+      const parsed = parseJSON(source, parseJSON(fallback, []));
+      if (editor) editor.value = JSON.stringify(parsed, null, 2);
+      updateSummary(Array.isArray(parsed) ? parsed : []);
+    }
+
+    function handleAction(action) {
+      if (!editor) return;
+      const result = validateProducts(editor.value);
+
+      if (action === "validate") {
+        if (!result.ok) {
+          setStatus(result.messageVi, result.messageEn, "error");
+          return;
+        }
+        updateSummary(result.data);
+        setStatus("JSON hợp lệ.", "JSON is valid.", "success");
+        return;
+      }
+
+      if (action === "save") {
+        if (!result.ok) {
+          setStatus(result.messageVi, result.messageEn, "error");
+          return;
+        }
+        const value = JSON.stringify(result.data, null, 2);
+        localStorage.setItem(STORAGE_KEY, value);
+        editor.value = value;
+        updateSummary(result.data);
+        setStatus(
+          "Đã lưu dữ liệu cục bộ. Quay lại trang chủ để kiểm tra.",
+          "Saved locally. Go back to Home to verify changes.",
+          "success"
+        );
+        return;
+      }
+
+      if (action === "reset") {
+        const fallback = parseJSON(jsonNode?.textContent ?? "[]", []);
+        localStorage.removeItem(STORAGE_KEY);
+        editor.value = JSON.stringify(fallback, null, 2);
+        updateSummary(fallback);
+        setStatus("Đã khôi phục dữ liệu mặc định.", "Default product data restored.", "success");
+        return;
+      }
+
+      if (action === "download") {
+        if (!result.ok) {
+          setStatus(result.messageVi, result.messageEn, "error");
+          return;
+        }
+
+        const blob = new Blob([JSON.stringify(result.data, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "mednova-products.json";
+        link.click();
+        URL.revokeObjectURL(url);
+        setStatus("Đã tải file JSON.", "JSON file downloaded.", "success");
+      }
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => handleAction(button.dataset.adminAction));
+    });
+
+    document.addEventListener("mednova:language-change", () => {
+      if (statusNode) {
+        statusNode.textContent = currentLang() === "en" ? statusNode.dataset.en : statusNode.dataset.vi;
+      }
+      updateSummary(lastData);
+    });
+
+    loadInitialData();
+  </script>
+</BaseLayout>

@@ -1,0 +1,126 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import CartPanel from "../../components/CartPanel.astro";
+import { products } from "../../data/products";
+
+const titleVi = "Danh mục sản phẩm | MedNova Instruments";
+const titleEn = "Product Catalog | MedNova Instruments";
+---
+
+<BaseLayout
+  title={titleVi}
+  description="Danh mục sản phẩm thiết bị y tế demo với thông số kỹ thuật, trang chi tiết và giỏ hàng."
+>
+  <main class="page-shell" data-title-vi={titleVi} data-title-en={titleEn}>
+    <div class="surface">
+      <SiteHeader activePath="products" />
+
+      <section class="catalog" id="catalog">
+        <div class="section-head">
+          <div>
+            <h1
+              class="catalog-title"
+              data-en="Medical Equipment Catalog"
+              data-vi="Danh mục thiết bị y tế"
+            >
+              Danh mục thiết bị y tế
+            </h1>
+            <p
+              class="section-note"
+              data-en="Bilingual product data with starter pricing and technical specifications."
+              data-vi="Dữ liệu sản phẩm song ngữ với giá tham khảo và thông số kỹ thuật."
+            >
+              Dữ liệu sản phẩm song ngữ với giá tham khảo và thông số kỹ thuật.
+            </p>
+          </div>
+          <p class="section-note">
+            <span data-en="Updated:" data-vi="Cập nhật:">Cập nhật:</span>
+            <span data-build-date></span>
+          </p>
+        </div>
+
+        <div class="product-grid">
+          {
+            products.map((product) => (
+              <article class="product-card">
+                <div class="product-top">
+                  <div class="product-icon" aria-hidden="true">{product.icon}</div>
+                  <div class="product-meta">
+                    <p class="chip" data-en={product.category.en} data-vi={product.category.vi}>
+                      {product.category.vi}
+                    </p>
+                    <p class="sku">
+                      <span data-en="SKU" data-vi="Mã SKU">Mã SKU</span>: {product.sku}
+                    </p>
+                  </div>
+                </div>
+
+                <h3 data-en={product.name.en} data-vi={product.name.vi}>{product.name.vi}</h3>
+                <p class="summary" data-en={product.summary.en} data-vi={product.summary.vi}>
+                  {product.summary.vi}
+                </p>
+
+                <ul class="spec-list">
+                  {product.specs.map((spec) => (
+                    <li>
+                      <span class="spec-key" data-en={spec.label.en} data-vi={spec.label.vi}>
+                        {spec.label.vi}
+                      </span>
+                      <span class="spec-value" data-en={spec.value.en} data-vi={spec.value.vi}>
+                        {spec.value.vi}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div class="card-footer">
+                  <div>
+                    <p class="price-label" data-en="Starting from" data-vi="Giá tham khảo từ">
+                      Giá tham khảo từ
+                    </p>
+                    <p
+                      class="price"
+                      data-price-usd={String(product.priceUSD)}
+                      data-price-vnd={String(product.priceVND)}
+                    ></p>
+                  </div>
+
+                  <div class="card-actions">
+                    <a
+                      class="ghost-btn"
+                      href={`/products/${product.id}`}
+                      data-en="View Details"
+                      data-vi="Xem chi tiết"
+                    >
+                      Xem chi tiết
+                    </a>
+                    <button
+                      class="btn btn-primary btn-small"
+                      type="button"
+                      data-add-to-cart={product.id}
+                      data-en="Add to Cart"
+                      data-vi="Thêm vào giỏ"
+                    >
+                      Thêm vào giỏ
+                    </button>
+                  </div>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <p data-en="MedNova Instruments · Product catalog" data-vi="MedNova Instruments · Danh mục sản phẩm">
+          MedNova Instruments · Danh mục sản phẩm
+        </p>
+        <p>sales@mednova.demo · +84 28 9999 5588</p>
+      </footer>
+    </div>
+  </main>
+
+  <CartPanel />
+  <script type="application/json" id="products-data" set:html={JSON.stringify(products)}></script>
+</BaseLayout>

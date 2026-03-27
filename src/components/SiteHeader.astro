@@ -1,9 +1,13 @@
 ---
+type ActivePath = "home" | "products" | "about" | "admin";
+
 interface Props {
-  backToCatalog?: boolean;
+  activePath?: ActivePath;
+  showCart?: boolean;
+  showAdminLink?: boolean;
 }
 
-const { backToCatalog = false } = Astro.props;
+const { activePath = "home", showCart = true, showAdminLink = true } = Astro.props;
 ---
 
 <header class="site-header">
@@ -20,19 +24,46 @@ const { backToCatalog = false } = Astro.props;
     </p>
   </div>
 
-  <div class="header-tools">
+  <nav class="main-nav" aria-label="Primary navigation">
+    <a
+      class:list={["nav-link", activePath === "products" && "active"]}
+      href="/products"
+      data-en="Products"
+      data-vi="Sản phẩm"
+    >
+      Sản phẩm
+    </a>
+    <a
+      class:list={["nav-link", activePath === "about" && "active"]}
+      href="/about"
+      data-en="Company"
+      data-vi="Giới thiệu công ty"
+    >
+      Giới thiệu công ty
+    </a>
     {
-      backToCatalog && (
-        <a class="catalog-link" href="/" data-en="Back to catalog" data-vi="Về danh mục">
-          Về danh mục
+      showAdminLink && (
+        <a
+          class:list={["nav-link", "nav-admin", activePath === "admin" && "active"]}
+          href="/admin"
+          data-en="Admin"
+          data-vi="Quản trị"
+        >
+          Quản trị
         </a>
       )
     }
+  </nav>
 
-    <button class="cart-trigger" type="button" data-cart-open>
-      <span data-en="Cart" data-vi="Giỏ hàng">Giỏ hàng</span>
-      <span class="cart-count" data-cart-count>0</span>
-    </button>
+  <div class="header-tools">
+    {
+      showCart && (
+        <button class="cart-trigger" type="button" data-cart-open>
+          <span data-en="Cart" data-vi="Giỏ hàng">Giỏ hàng</span>
+          <span class="cart-count" data-cart-count>0</span>
+        </button>
+      )
+    }
 
     <div class="lang-switch" role="group" aria-label="Language switch">
       <button type="button" data-lang-switch="vi" aria-pressed="true">VI</button>

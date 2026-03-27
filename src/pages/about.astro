@@ -1,0 +1,75 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+
+const titleVi = "Giới thiệu công ty | MedNova Instruments";
+const titleEn = "Company Overview | MedNova Instruments";
+---
+
+<BaseLayout
+  title={titleVi}
+  description="Giới thiệu công ty MedNova Instruments: năng lực triển khai thiết bị y tế, hỗ trợ kỹ thuật và định hướng phát triển."
+>
+  <main class="page-shell" data-title-vi={titleVi} data-title-en={titleEn}>
+    <div class="surface">
+      <SiteHeader activePath="about" showCart={false} />
+
+      <section class="about-page-hero">
+        <span class="eyebrow" data-en="Company Overview" data-vi="Giới thiệu công ty">
+          Giới thiệu công ty
+        </span>
+        <h1
+          data-en="MedNova Instruments bridges clinical needs with practical medical technology."
+          data-vi="MedNova Instruments kết nối nhu cầu lâm sàng với công nghệ thiết bị y tế thực tiễn."
+        >
+          MedNova Instruments kết nối nhu cầu lâm sàng với công nghệ thiết bị y tế thực tiễn.
+        </h1>
+        <p
+          data-en="We design implementation plans that combine reliable equipment, biomedical support, and long-term service continuity."
+          data-vi="Chúng tôi xây dựng kế hoạch triển khai kết hợp thiết bị tin cậy, hỗ trợ kỹ thuật y sinh và dịch vụ vận hành dài hạn."
+        >
+          Chúng tôi xây dựng kế hoạch triển khai kết hợp thiết bị tin cậy, hỗ trợ kỹ thuật y sinh và dịch vụ vận hành dài hạn.
+        </p>
+      </section>
+
+      <section class="about-page-grid">
+        <article class="about-card">
+          <h3 data-en="Core Focus" data-vi="Trọng tâm">Trọng tâm</h3>
+          <p
+            data-en="Monitoring, diagnostics, infusion, and sterilization systems tailored for hospitals and clinics."
+            data-vi="Giải pháp monitor, chẩn đoán, truyền dịch và tiệt khuẩn phù hợp cả bệnh viện và phòng khám."
+          >
+            Giải pháp monitor, chẩn đoán, truyền dịch và tiệt khuẩn phù hợp cả bệnh viện và phòng khám.
+          </p>
+        </article>
+
+        <article class="about-card">
+          <h3 data-en="Deployment Model" data-vi="Mô hình triển khai">Mô hình triển khai</h3>
+          <p
+            data-en="Pre-sales technical consulting, site readiness, training, calibration, and preventive maintenance."
+            data-vi="Tư vấn kỹ thuật trước bán hàng, đánh giá hạ tầng, đào tạo vận hành, hiệu chuẩn và bảo trì định kỳ."
+          >
+            Tư vấn kỹ thuật trước bán hàng, đánh giá hạ tầng, đào tạo vận hành, hiệu chuẩn và bảo trì định kỳ.
+          </p>
+        </article>
+
+        <article class="about-card">
+          <h3 data-en="Operational Commitment" data-vi="Cam kết vận hành">Cam kết vận hành</h3>
+          <p
+            data-en="Transparent documentation, traceable service logs, and responsive after-sales support."
+            data-vi="Tài liệu minh bạch, nhật ký dịch vụ truy xuất được và hỗ trợ sau bán hàng phản hồi nhanh."
+          >
+            Tài liệu minh bạch, nhật ký dịch vụ truy xuất được và hỗ trợ sau bán hàng phản hồi nhanh.
+          </p>
+        </article>
+      </section>
+
+      <footer class="site-footer">
+        <p data-en="MedNova Instruments · Company overview" data-vi="MedNova Instruments · Thông tin công ty">
+          MedNova Instruments · Thông tin công ty
+        </p>
+        <p>sales@mednova.demo · +84 28 9999 5588</p>
+      </footer>
+    </div>
+  </main>
+</BaseLayout>

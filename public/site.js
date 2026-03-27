@@ -1,5 +1,6 @@
 const LANG_KEY = "mednova-lang";
 const CART_KEY = "mednova-cart-v1";
+const PRODUCTS_KEY = "mednova-products-v1";
 const SUPPORTED_LANGS = ["vi", "en"];
 
 const formatters = {
@@ -45,9 +46,45 @@ function escapeHTML(value) {
 
 function getProductsFromPage() {
   const dataNode = document.getElementById("products-data");
-  if (!dataNode?.textContent) return [];
-  const parsed = safeJSONParse(dataNode.textContent, []);
-  return Array.isArray(parsed) ? parsed : [];
+  const fallback = dataNode?.textContent ? safeJSONParse(dataNode.textContent, []) : [];
+  const fallbackProducts = Array.isArray(fallback) ? fallback : [];
+
+  const stored = localStorage.getItem(PRODUCTS_KEY);
+  if (!stored) return fallbackProducts;
+
+  const parsedStored = safeJSONParse(stored, null);
+  if (!isValidProductList(parsedStored)) return fallbackProducts;
+  return parsedStored;
+}
+
+function isLocalizedText(value) {
+  return (
+    value &&
+    typeof value === "object" &&
+    typeof value.en === "string" &&
+    typeof value.vi === "string"
+  );
+}
+
+function isValidProduct(value) {
+  return (
+    value &&
+    typeof value === "object" &&
+    typeof value.id === "string" &&
+    typeof value.sku === "string" &&
+    typeof value.icon === "string" &&
+    typeof value.priceUSD === "number" &&
+    typeof value.priceVND === "number" &&
+    isLocalizedText(value.category) &&
+    isLocalizedText(value.name) &&
+    isLocalizedText(value.summary) &&
+    Array.isArray(value.specs) &&
+    value.specs.every((spec) => isLocalizedText(spec?.label) && isLocalizedText(spec?.value))
+  );
+}
+
+function isValidProductList(value) {
+  return Array.isArray(value) && value.length > 0 && value.every((item) => isValidProduct(item));
 }
 
 function normalizeLanguage(lang) {
@@ -132,6 +169,7 @@ function applyLanguage(lang) {
   updateBuildDate();
   updateTitle();
   renderCart();
+  document.dispatchEvent(new CustomEvent("mednova:language-change", { detail: { lang: currentLang } }));
 }
 
 function setCartOpen(open) {
@@ -192,6 +230,7 @@ function renderCart() {
 
   const qtyLabel = currentLang === "vi" ? "SL" : "Qty";
   const removeLabel = currentLang === "vi" ? "Xóa" : "Remove";
+  const skuLabel = currentLang === "vi" ? "Mã" : "SKU";
 
   if (entries.length === 0) {
     cartItemsNode.innerHTML = "";
@@ -216,7 +255,7 @@ function renderCart() {
       <article class="cart-item">
         <div class="cart-item-main">
           <p class="cart-item-name">${escapeHTML(name)}</p>
-          <p class="cart-item-meta">SKU: ${escapeHTML(product.sku)} · ${linePrice}</p>
+          <p class="cart-item-meta">${skuLabel}: ${escapeHTML(product.sku)} · ${linePrice}</p>
         </div>
         <div class="cart-item-controls">
           <button type="button" class="qty-btn" data-cart-action="decrease" data-product-id="${id}" aria-label="decrease">−</button>

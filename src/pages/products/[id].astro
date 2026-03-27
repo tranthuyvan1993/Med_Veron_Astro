@@ -25,7 +25,7 @@ const titleEn = `${product.name.en} | MedNova Instruments`;
 <BaseLayout title={titleVi} description={product.summary.vi}>
   <main class="page-shell" data-title-vi={titleVi} data-title-en={titleEn}>
     <div class="surface">
-      <SiteHeader backToCatalog={true} />
+      <SiteHeader activePath="products" />
 
       <section class="product-detail">
         <article class="detail-hero">
@@ -66,8 +66,8 @@ const titleEn = `${product.name.en} | MedNova Instruments`;
             >
               Thêm vào giỏ
             </button>
-            <a class="btn btn-light" href="/" data-en="Back to Catalog" data-vi="Về danh mục">
-              Về danh mục
+            <a class="btn btn-light" href="/products" data-en="Back to Products" data-vi="Về trang sản phẩm">
+              Về trang sản phẩm
             </a>
           </div>
         </article>
@@ -166,11 +166,8 @@ const titleEn = `${product.name.en} | MedNova Instruments`;
       </section>
 
       <footer class="site-footer">
-        <p
-          data-en="MedNova Instruments demo storefront · Product detail mode enabled."
-          data-vi="Gian hàng demo MedNova Instruments · Đang ở chế độ trang chi tiết sản phẩm."
-        >
-          Gian hàng demo MedNova Instruments · Đang ở chế độ trang chi tiết sản phẩm.
+        <p data-en="MedNova Instruments · Product detail page" data-vi="MedNova Instruments · Trang chi tiết sản phẩm">
+          MedNova Instruments · Trang chi tiết sản phẩm
         </p>
         <p>sales@mednova.demo · +84 28 9999 5588</p>
       </footer>

@@ -1,245 +1,158 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
-import CartPanel from "../components/CartPanel.astro";
-import { products } from "../data/products";
 
-const titleVi = "MedNova Instruments | Cửa hàng thiết bị y tế";
-const titleEn = "MedNova Instruments | Medical Device Store";
+const titleVi = "MedNova Instruments | Giải pháp thiết bị y tế hiện đại";
+const titleEn = "MedNova Instruments | Modern Medical Equipment Solutions";
 ---
 
 <BaseLayout
   title={titleVi}
-  description="Website demo bán thiết bị y tế với danh mục sản phẩm mẫu, trang chi tiết và giỏ hàng song ngữ Anh - Việt."
+  description="Trang giới thiệu MedNova Instruments: định hướng phát triển thiết bị y tế hiện đại, an toàn và ứng dụng thực tiễn."
 >
   <main class="page-shell" data-title-vi={titleVi} data-title-en={titleEn}>
     <div class="surface">
-      <SiteHeader />
+      <SiteHeader activePath="home" showCart={false} />
 
-      <section class="hero">
-        <article class="hero-main">
+      <section class="home-intro">
+        <article class="home-hero">
           <span
             class="eyebrow"
-            data-en="Trusted Medical Marketplace"
-            data-vi="Nền tảng thiết bị y tế uy tín"
+            data-en="Future-ready Healthcare Technology"
+            data-vi="Công nghệ y tế hướng đến tương lai"
           >
-            Nền tảng thiết bị y tế uy tín
+            Công nghệ y tế hướng đến tương lai
           </span>
 
           <h1
-            data-en="Equip your clinic with reliable, certified medical technology."
-            data-vi="Trang bị phòng khám của bạn với công nghệ y tế đáng tin cậy và đạt chuẩn."
+            data-en="Medical equipment is evolving from standalone devices to connected clinical ecosystems."
+            data-vi="Thiết bị y tế đang chuyển dịch từ máy đơn lẻ sang hệ sinh thái lâm sàng kết nối."
           >
-            Trang bị phòng khám của bạn với công nghệ y tế đáng tin cậy và đạt chuẩn.
+            Thiết bị y tế đang chuyển dịch từ máy đơn lẻ sang hệ sinh thái lâm sàng kết nối.
           </h1>
 
           <p
-            class="hero-copy"
-            data-en="Browse diagnostic, monitoring, infusion, and sterilization devices with transparent demo pricing, technical specifications, and bilingual support."
-            data-vi="Khám phá thiết bị chẩn đoán, theo dõi, truyền dịch và tiệt khuẩn với giá demo minh bạch, thông số kỹ thuật rõ ràng và hỗ trợ song ngữ."
+            class="home-copy"
+            data-en="MedNova focuses on reliability, safety, and interoperability so clinics can scale care quality with confidence."
+            data-vi="MedNova tập trung vào độ tin cậy, an toàn và khả năng liên thông để phòng khám mở rộng chất lượng điều trị một cách vững chắc."
           >
-            Khám phá thiết bị chẩn đoán, theo dõi, truyền dịch và tiệt khuẩn với giá demo minh bạch, thông số kỹ thuật rõ ràng và hỗ trợ song ngữ.
+            MedNova tập trung vào độ tin cậy, an toàn và khả năng liên thông để phòng khám mở rộng chất lượng điều trị một cách vững chắc.
           </p>
 
           <div class="hero-actions">
-            <a
-              class="btn btn-primary"
-              href="#catalog"
-              data-en="View Product Catalog"
-              data-vi="Xem danh mục sản phẩm"
-            >
-              Xem danh mục sản phẩm
+            <a class="btn btn-primary" href="/products" data-en="Explore Products" data-vi="Khám phá sản phẩm">
+              Khám phá sản phẩm
             </a>
-            <button
-              class="btn btn-light"
-              type="button"
-              data-cart-open
-              data-en="Open Cart"
-              data-vi="Mở giỏ hàng"
-            >
-              Mở giỏ hàng
-            </button>
+            <a class="btn btn-light" href="/about" data-en="About Company" data-vi="Giới thiệu công ty">
+              Giới thiệu công ty
+            </a>
           </div>
         </article>
 
-        <aside class="hero-side">
-          <div class="stat-card">
-            <p class="stat-value">96%</p>
+        <aside class="home-highlight">
+          <div class="pulse-ring" aria-hidden="true"></div>
+          <div class="home-stat">
+            <p class="stat-value">4.0</p>
             <p
               class="stat-label"
-              data-en="On-time delivery to clinics and hospitals"
-              data-vi="Tỷ lệ giao hàng đúng hẹn cho phòng khám và bệnh viện"
+              data-en="Generation of smart medical ecosystems"
+              data-vi="Thế hệ hệ sinh thái y tế thông minh"
             >
-              Tỷ lệ giao hàng đúng hẹn cho phòng khám và bệnh viện
+              Thế hệ hệ sinh thái y tế thông minh
             </p>
           </div>
-          <div class="stat-card">
-            <p class="stat-value">24/7</p>
+          <div class="home-stat">
+            <p class="stat-value">IoMT</p>
             <p
               class="stat-label"
-              data-en="Technical support and maintenance hotline"
-              data-vi="Hỗ trợ kỹ thuật và bảo trì liên tục"
+              data-en="Connected devices + centralized monitoring"
+              data-vi="Thiết bị kết nối + giám sát tập trung"
             >
-              Hỗ trợ kỹ thuật và bảo trì liên tục
-            </p>
-          </div>
-          <div class="stat-card">
-            <p class="stat-value">150+</p>
-            <p
-              class="stat-label"
-              data-en="Certified devices in our active inventory"
-              data-vi="Thiết bị đạt chuẩn trong kho vận hành"
-            >
-              Thiết bị đạt chuẩn trong kho vận hành
+              Thiết bị kết nối + giám sát tập trung
             </p>
           </div>
         </aside>
       </section>
 
-      <section class="catalog" id="catalog">
+      <section class="evolution">
         <div class="section-head">
           <div>
-            <h2 data-en="Demo Medical Devices" data-vi="Sản phẩm thiết bị y tế demo">
-              Sản phẩm thiết bị y tế demo
+            <h2
+              data-en="Evolution of Medical Equipment"
+              data-vi="Sự phát triển của thiết bị y tế"
+            >
+              Sự phát triển của thiết bị y tế
             </h2>
             <p
               class="section-note"
-              data-en="Live bilingual catalog with technical data and starter pricing."
-              data-vi="Danh mục song ngữ có thông tin kỹ thuật và giá tham khảo."
+              data-en="From analog machines to AI-assisted decision support."
+              data-vi="Từ máy analog đến nền tảng hỗ trợ quyết định bằng AI."
             >
-              Danh mục song ngữ có thông tin kỹ thuật và giá tham khảo.
+              Từ máy analog đến nền tảng hỗ trợ quyết định bằng AI.
             </p>
           </div>
-          <p class="section-note">
-            <span data-en="Updated:" data-vi="Cập nhật:">Cập nhật:</span>
-            <span data-build-date></span>
-          </p>
         </div>
 
-        <div class="product-grid">
-          {
-            products.map((product) => (
-              <article class="product-card">
-                <div class="product-top">
-                  <div class="product-icon" aria-hidden="true">{product.icon}</div>
-                  <div class="product-meta">
-                    <p class="chip" data-en={product.category.en} data-vi={product.category.vi}>
-                      {product.category.vi}
-                    </p>
-                    <p class="sku">
-                      <span data-en="SKU" data-vi="Mã SKU">Mã SKU</span>: {product.sku}
-                    </p>
-                  </div>
-                </div>
+        <div class="timeline-grid">
+          <article class="timeline-card">
+            <p class="timeline-year">1970s-1990s</p>
+            <h3 data-en="Analog to Digital Transition" data-vi="Chuyển đổi từ analog sang số hóa">
+              Chuyển đổi từ analog sang số hóa
+            </h3>
+            <p
+              data-en="Core devices such as ECG and patient monitors moved toward stable digital signal processing."
+              data-vi="Các thiết bị nền tảng như ECG và monitor bắt đầu chuyển sang xử lý tín hiệu số ổn định hơn."
+            >
+              Các thiết bị nền tảng như ECG và monitor bắt đầu chuyển sang xử lý tín hiệu số ổn định hơn.
+            </p>
+          </article>
 
-                <h3 data-en={product.name.en} data-vi={product.name.vi}>{product.name.vi}</h3>
-                <p class="summary" data-en={product.summary.en} data-vi={product.summary.vi}>
-                  {product.summary.vi}
-                </p>
+          <article class="timeline-card">
+            <p class="timeline-year">2000s</p>
+            <h3 data-en="Clinical Workflow Integration" data-vi="Tích hợp vào quy trình lâm sàng">
+              Tích hợp vào quy trình lâm sàng
+            </h3>
+            <p
+              data-en="Hospital systems introduced networked devices, central dashboards, and electronic records compatibility."
+              data-vi="Hệ thống bệnh viện đưa vào thiết bị kết nối mạng, bảng điều khiển tập trung và tương thích hồ sơ điện tử."
+            >
+              Hệ thống bệnh viện đưa vào thiết bị kết nối mạng, bảng điều khiển tập trung và tương thích hồ sơ điện tử.
+            </p>
+          </article>
 
-                <ul class="spec-list">
-                  {product.specs.map((spec) => (
-                    <li>
-                      <span class="spec-key" data-en={spec.label.en} data-vi={spec.label.vi}>
-                        {spec.label.vi}
-                      </span>
-                      <span class="spec-value" data-en={spec.value.en} data-vi={spec.value.vi}>
-                        {spec.value.vi}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div class="card-footer">
-                  <div>
-                    <p class="price-label" data-en="Starting from" data-vi="Giá tham khảo từ">
-                      Giá tham khảo từ
-                    </p>
-                    <p
-                      class="price"
-                      data-price-usd={String(product.priceUSD)}
-                      data-price-vnd={String(product.priceVND)}
-                    ></p>
-                  </div>
-
-                  <div class="card-actions">
-                    <a
-                      class="ghost-btn"
-                      href={`/products/${product.id}`}
-                      data-en="View Details"
-                      data-vi="Xem chi tiết"
-                    >
-                      Xem chi tiết
-                    </a>
-                    <button
-                      class="btn btn-primary btn-small"
-                      type="button"
-                      data-add-to-cart={product.id}
-                      data-en="Add to Cart"
-                      data-vi="Thêm vào giỏ"
-                    >
-                      Thêm vào giỏ
-                    </button>
-                  </div>
-                </div>
-              </article>
-            ))
-          }
+          <article class="timeline-card">
+            <p class="timeline-year">2015-Now</p>
+            <h3 data-en="Smart, Predictive, and Connected Care" data-vi="Chăm sóc thông minh, dự báo và liên thông">
+              Chăm sóc thông minh, dự báo và liên thông
+            </h3>
+            <p
+              data-en="AI-assisted insights, cloud synchronization, and remote diagnostics enable faster and safer interventions."
+              data-vi="Phân tích hỗ trợ AI, đồng bộ đám mây và chẩn đoán từ xa giúp can thiệp nhanh và an toàn hơn."
+            >
+              Phân tích hỗ trợ AI, đồng bộ đám mây và chẩn đoán từ xa giúp can thiệp nhanh và an toàn hơn.
+            </p>
+          </article>
         </div>
       </section>
 
-      <section class="assurance">
-        <div class="assurance-grid">
-          <article class="assurance-card">
-            <h3 data-en="Regulatory Compliance" data-vi="Tuân thủ tiêu chuẩn">
-              Tuân thủ tiêu chuẩn
-            </h3>
-            <p
-              data-en="Demo products are modeled with CE/FDA-compliant specification structures for procurement teams."
-              data-vi="Sản phẩm demo được mô phỏng theo cấu trúc thông số đạt chuẩn CE/FDA cho đội mua sắm."
-            >
-              Sản phẩm demo được mô phỏng theo cấu trúc thông số đạt chuẩn CE/FDA cho đội mua sắm.
-            </p>
-          </article>
-
-          <article class="assurance-card">
-            <h3 data-en="Installation & Training" data-vi="Lắp đặt và đào tạo">
-              Lắp đặt và đào tạo
-            </h3>
-            <p
-              data-en="Our biomedical team supports setup, calibration, and operator onboarding at your facility."
-              data-vi="Đội kỹ sư thiết bị y sinh hỗ trợ lắp đặt, hiệu chuẩn và đào tạo vận hành tại cơ sở của bạn."
-            >
-              Đội kỹ sư thiết bị y sinh hỗ trợ lắp đặt, hiệu chuẩn và đào tạo vận hành tại cơ sở của bạn.
-            </p>
-          </article>
-
-          <article class="assurance-card">
-            <h3 data-en="After-sales Service" data-vi="Dịch vụ sau bán hàng">
-              Dịch vụ sau bán hàng
-            </h3>
-            <p
-              data-en="Preventive maintenance plans and certified spare-part replacement are available nationwide."
-              data-vi="Sẵn sàng gói bảo trì định kỳ và thay thế linh kiện chính hãng trên toàn quốc."
-            >
-              Sẵn sàng gói bảo trì định kỳ và thay thế linh kiện chính hãng trên toàn quốc.
-            </p>
-          </article>
-        </div>
+      <section class="vision-strip">
+        <p
+          data-en="Our vision: make advanced medical technology practical, maintainable, and accessible for every clinic scale."
+          data-vi="Tầm nhìn của chúng tôi: biến công nghệ y tế tiên tiến thành giải pháp thực tiễn, dễ bảo trì và phù hợp mọi quy mô phòng khám."
+        >
+          Tầm nhìn của chúng tôi: biến công nghệ y tế tiên tiến thành giải pháp thực tiễn, dễ bảo trì và phù hợp mọi quy mô phòng khám.
+        </p>
       </section>
 
       <footer class="site-footer">
         <p
-          data-en="MedNova Instruments demo storefront · 100% UTF-8 bilingual ready."
-          data-vi="Gian hàng demo MedNova Instruments · Chuẩn song ngữ UTF-8."
+          data-en="MedNova Instruments · Introductory homepage"
+          data-vi="MedNova Instruments · Trang giới thiệu tổng quan"
         >
-          Gian hàng demo MedNova Instruments · Chuẩn song ngữ UTF-8.
+          MedNova Instruments · Trang giới thiệu tổng quan
         </p>
         <p>sales@mednova.demo · +84 28 9999 5588</p>
       </footer>
     </div>
   </main>
-
-  <CartPanel />
-  <script type="application/json" id="products-data" set:html={JSON.stringify(products)}></script>
 </BaseLayout>
