@@ -1,0 +1,245 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import CartPanel from "../components/CartPanel.astro";
+import { products } from "../data/products";
+
+const titleVi = "MedNova Instruments | Cửa hàng thiết bị y tế";
+const titleEn = "MedNova Instruments | Medical Device Store";
+---
+
+<BaseLayout
+  title={titleVi}
+  description="Website demo bán thiết bị y tế với danh mục sản phẩm mẫu, trang chi tiết và giỏ hàng song ngữ Anh - Việt."
+>
+  <main class="page-shell" data-title-vi={titleVi} data-title-en={titleEn}>
+    <div class="surface">
+      <SiteHeader />
+
+      <section class="hero">
+        <article class="hero-main">
+          <span
+            class="eyebrow"
+            data-en="Trusted Medical Marketplace"
+            data-vi="Nền tảng thiết bị y tế uy tín"
+          >
+            Nền tảng thiết bị y tế uy tín
+          </span>
+
+          <h1
+            data-en="Equip your clinic with reliable, certified medical technology."
+            data-vi="Trang bị phòng khám của bạn với công nghệ y tế đáng tin cậy và đạt chuẩn."
+          >
+            Trang bị phòng khám của bạn với công nghệ y tế đáng tin cậy và đạt chuẩn.
+          </h1>
+
+          <p
+            class="hero-copy"
+            data-en="Browse diagnostic, monitoring, infusion, and sterilization devices with transparent demo pricing, technical specifications, and bilingual support."
+            data-vi="Khám phá thiết bị chẩn đoán, theo dõi, truyền dịch và tiệt khuẩn với giá demo minh bạch, thông số kỹ thuật rõ ràng và hỗ trợ song ngữ."
+          >
+            Khám phá thiết bị chẩn đoán, theo dõi, truyền dịch và tiệt khuẩn với giá demo minh bạch, thông số kỹ thuật rõ ràng và hỗ trợ song ngữ.
+          </p>
+
+          <div class="hero-actions">
+            <a
+              class="btn btn-primary"
+              href="#catalog"
+              data-en="View Product Catalog"
+              data-vi="Xem danh mục sản phẩm"
+            >
+              Xem danh mục sản phẩm
+            </a>
+            <button
+              class="btn btn-light"
+              type="button"
+              data-cart-open
+              data-en="Open Cart"
+              data-vi="Mở giỏ hàng"
+            >
+              Mở giỏ hàng
+            </button>
+          </div>
+        </article>
+
+        <aside class="hero-side">
+          <div class="stat-card">
+            <p class="stat-value">96%</p>
+            <p
+              class="stat-label"
+              data-en="On-time delivery to clinics and hospitals"
+              data-vi="Tỷ lệ giao hàng đúng hẹn cho phòng khám và bệnh viện"
+            >
+              Tỷ lệ giao hàng đúng hẹn cho phòng khám và bệnh viện
+            </p>
+          </div>
+          <div class="stat-card">
+            <p class="stat-value">24/7</p>
+            <p
+              class="stat-label"
+              data-en="Technical support and maintenance hotline"
+              data-vi="Hỗ trợ kỹ thuật và bảo trì liên tục"
+            >
+              Hỗ trợ kỹ thuật và bảo trì liên tục
+            </p>
+          </div>
+          <div class="stat-card">
+            <p class="stat-value">150+</p>
+            <p
+              class="stat-label"
+              data-en="Certified devices in our active inventory"
+              data-vi="Thiết bị đạt chuẩn trong kho vận hành"
+            >
+              Thiết bị đạt chuẩn trong kho vận hành
+            </p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="catalog" id="catalog">
+        <div class="section-head">
+          <div>
+            <h2 data-en="Demo Medical Devices" data-vi="Sản phẩm thiết bị y tế demo">
+              Sản phẩm thiết bị y tế demo
+            </h2>
+            <p
+              class="section-note"
+              data-en="Live bilingual catalog with technical data and starter pricing."
+              data-vi="Danh mục song ngữ có thông tin kỹ thuật và giá tham khảo."
+            >
+              Danh mục song ngữ có thông tin kỹ thuật và giá tham khảo.
+            </p>
+          </div>
+          <p class="section-note">
+            <span data-en="Updated:" data-vi="Cập nhật:">Cập nhật:</span>
+            <span data-build-date></span>
+          </p>
+        </div>
+
+        <div class="product-grid">
+          {
+            products.map((product) => (
+              <article class="product-card">
+                <div class="product-top">
+                  <div class="product-icon" aria-hidden="true">{product.icon}</div>
+                  <div class="product-meta">
+                    <p class="chip" data-en={product.category.en} data-vi={product.category.vi}>
+                      {product.category.vi}
+                    </p>
+                    <p class="sku">
+                      <span data-en="SKU" data-vi="Mã SKU">Mã SKU</span>: {product.sku}
+                    </p>
+                  </div>
+                </div>
+
+                <h3 data-en={product.name.en} data-vi={product.name.vi}>{product.name.vi}</h3>
+                <p class="summary" data-en={product.summary.en} data-vi={product.summary.vi}>
+                  {product.summary.vi}
+                </p>
+
+                <ul class="spec-list">
+                  {product.specs.map((spec) => (
+                    <li>
+                      <span class="spec-key" data-en={spec.label.en} data-vi={spec.label.vi}>
+                        {spec.label.vi}
+                      </span>
+                      <span class="spec-value" data-en={spec.value.en} data-vi={spec.value.vi}>
+                        {spec.value.vi}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div class="card-footer">
+                  <div>
+                    <p class="price-label" data-en="Starting from" data-vi="Giá tham khảo từ">
+                      Giá tham khảo từ
+                    </p>
+                    <p
+                      class="price"
+                      data-price-usd={String(product.priceUSD)}
+                      data-price-vnd={String(product.priceVND)}
+                    ></p>
+                  </div>
+
+                  <div class="card-actions">
+                    <a
+                      class="ghost-btn"
+                      href={`/products/${product.id}`}
+                      data-en="View Details"
+                      data-vi="Xem chi tiết"
+                    >
+                      Xem chi tiết
+                    </a>
+                    <button
+                      class="btn btn-primary btn-small"
+                      type="button"
+                      data-add-to-cart={product.id}
+                      data-en="Add to Cart"
+                      data-vi="Thêm vào giỏ"
+                    >
+                      Thêm vào giỏ
+                    </button>
+                  </div>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="assurance">
+        <div class="assurance-grid">
+          <article class="assurance-card">
+            <h3 data-en="Regulatory Compliance" data-vi="Tuân thủ tiêu chuẩn">
+              Tuân thủ tiêu chuẩn
+            </h3>
+            <p
+              data-en="Demo products are modeled with CE/FDA-compliant specification structures for procurement teams."
+              data-vi="Sản phẩm demo được mô phỏng theo cấu trúc thông số đạt chuẩn CE/FDA cho đội mua sắm."
+            >
+              Sản phẩm demo được mô phỏng theo cấu trúc thông số đạt chuẩn CE/FDA cho đội mua sắm.
+            </p>
+          </article>
+
+          <article class="assurance-card">
+            <h3 data-en="Installation & Training" data-vi="Lắp đặt và đào tạo">
+              Lắp đặt và đào tạo
+            </h3>
+            <p
+              data-en="Our biomedical team supports setup, calibration, and operator onboarding at your facility."
+              data-vi="Đội kỹ sư thiết bị y sinh hỗ trợ lắp đặt, hiệu chuẩn và đào tạo vận hành tại cơ sở của bạn."
+            >
+              Đội kỹ sư thiết bị y sinh hỗ trợ lắp đặt, hiệu chuẩn và đào tạo vận hành tại cơ sở của bạn.
+            </p>
+          </article>
+
+          <article class="assurance-card">
+            <h3 data-en="After-sales Service" data-vi="Dịch vụ sau bán hàng">
+              Dịch vụ sau bán hàng
+            </h3>
+            <p
+              data-en="Preventive maintenance plans and certified spare-part replacement are available nationwide."
+              data-vi="Sẵn sàng gói bảo trì định kỳ và thay thế linh kiện chính hãng trên toàn quốc."
+            >
+              Sẵn sàng gói bảo trì định kỳ và thay thế linh kiện chính hãng trên toàn quốc.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <p
+          data-en="MedNova Instruments demo storefront · 100% UTF-8 bilingual ready."
+          data-vi="Gian hàng demo MedNova Instruments · Chuẩn song ngữ UTF-8."
+        >
+          Gian hàng demo MedNova Instruments · Chuẩn song ngữ UTF-8.
+        </p>
+        <p>sales@mednova.demo · +84 28 9999 5588</p>
+      </footer>
+    </div>
+  </main>
+
+  <CartPanel />
+  <script type="application/json" id="products-data" set:html={JSON.stringify(products)}></script>
+</BaseLayout>

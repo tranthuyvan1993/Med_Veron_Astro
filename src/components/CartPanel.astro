@@ -1,0 +1,45 @@
+<div class="cart-overlay" data-cart-overlay hidden></div>
+<aside class="cart-panel" data-cart-panel aria-hidden="true">
+  <div class="cart-head">
+    <h2 data-en="Your Cart" data-vi="Giỏ hàng của bạn">Giỏ hàng của bạn</h2>
+    <button class="cart-close" type="button" aria-label="Close cart" data-cart-close>
+      ×
+    </button>
+  </div>
+
+  <div class="cart-body">
+    <p
+      class="cart-empty"
+      data-cart-empty
+      data-en="Your cart is empty. Add products to request a quote."
+      data-vi="Giỏ hàng đang trống. Hãy thêm sản phẩm để gửi yêu cầu báo giá."
+    >
+      Giỏ hàng đang trống. Hãy thêm sản phẩm để gửi yêu cầu báo giá.
+    </p>
+    <div class="cart-items" data-cart-items></div>
+  </div>
+
+  <div class="cart-summary">
+    <p class="cart-summary-row">
+      <span data-en="Items" data-vi="Số lượng">Số lượng</span>
+      <strong data-cart-total-items>0</strong>
+    </p>
+    <p class="cart-summary-row">
+      <span data-en="Subtotal" data-vi="Tạm tính">Tạm tính</span>
+      <strong data-cart-subtotal>0 ₫</strong>
+    </p>
+    <div class="cart-actions">
+      <button class="ghost-btn" type="button" data-cart-clear data-en="Clear Cart" data-vi="Xóa giỏ">
+        Xóa giỏ
+      </button>
+      <a
+        class="btn btn-primary cart-checkout"
+        href="mailto:sales@mednova.demo?subject=Medical%20device%20quote%20request"
+        data-en="Send Quote Request"
+        data-vi="Gửi yêu cầu báo giá"
+      >
+        Gửi yêu cầu báo giá
+      </a>
+    </div>
+  </div>
+</aside>

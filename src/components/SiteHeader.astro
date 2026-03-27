@@ -1,0 +1,42 @@
+---
+interface Props {
+  backToCatalog?: boolean;
+}
+
+const { backToCatalog = false } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="brand">
+    <a class="brand-title-link" href="/">
+      <p class="brand-title">MedNova Instruments</p>
+    </a>
+    <p
+      class="brand-subtitle"
+      data-en="Hospital-grade devices for modern clinics"
+      data-vi="Thiết bị chuẩn bệnh viện cho phòng khám hiện đại"
+    >
+      Thiết bị chuẩn bệnh viện cho phòng khám hiện đại
+    </p>
+  </div>
+
+  <div class="header-tools">
+    {
+      backToCatalog && (
+        <a class="catalog-link" href="/" data-en="Back to catalog" data-vi="Về danh mục">
+          Về danh mục
+        </a>
+      )
+    }
+
+    <button class="cart-trigger" type="button" data-cart-open>
+      <span data-en="Cart" data-vi="Giỏ hàng">Giỏ hàng</span>
+      <span class="cart-count" data-cart-count>0</span>
+    </button>
+
+    <div class="lang-switch" role="group" aria-label="Language switch">
+      <button type="button" data-lang-switch="vi" aria-pressed="true">VI</button>
+      <button type="button" data-lang-switch="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</header>

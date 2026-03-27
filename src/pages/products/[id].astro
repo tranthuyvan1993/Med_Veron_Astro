@@ -1,0 +1,182 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import CartPanel from "../../components/CartPanel.astro";
+import { products, type Product } from "../../data/products";
+
+type Props = {
+  product: Product;
+};
+
+export async function getStaticPaths() {
+  return products.map((product) => ({
+    params: { id: product.id },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props as Props;
+const relatedProducts = products.filter((item) => item.id !== product.id).slice(0, 3);
+
+const titleVi = `${product.name.vi} | MedNova Instruments`;
+const titleEn = `${product.name.en} | MedNova Instruments`;
+---
+
+<BaseLayout title={titleVi} description={product.summary.vi}>
+  <main class="page-shell" data-title-vi={titleVi} data-title-en={titleEn}>
+    <div class="surface">
+      <SiteHeader backToCatalog={true} />
+
+      <section class="product-detail">
+        <article class="detail-hero">
+          <div class="detail-head">
+            <p class="chip" data-en={product.category.en} data-vi={product.category.vi}>
+              {product.category.vi}
+            </p>
+            <p class="sku">
+              <span data-en="SKU" data-vi="Mã SKU">Mã SKU</span>: {product.sku}
+            </p>
+          </div>
+
+          <div class="detail-title-row">
+            <span class="detail-icon" aria-hidden="true">{product.icon}</span>
+            <h1 data-en={product.name.en} data-vi={product.name.vi}>{product.name.vi}</h1>
+          </div>
+
+          <p class="detail-summary" data-en={product.summary.en} data-vi={product.summary.vi}>
+            {product.summary.vi}
+          </p>
+
+          <div class="detail-price-box">
+            <p data-en="Reference price" data-vi="Giá tham khảo">Giá tham khảo</p>
+            <p
+              class="detail-price"
+              data-price-usd={String(product.priceUSD)}
+              data-price-vnd={String(product.priceVND)}
+            ></p>
+          </div>
+
+          <div class="detail-actions">
+            <button
+              class="btn btn-primary"
+              type="button"
+              data-add-to-cart={product.id}
+              data-en="Add to Cart"
+              data-vi="Thêm vào giỏ"
+            >
+              Thêm vào giỏ
+            </button>
+            <a class="btn btn-light" href="/" data-en="Back to Catalog" data-vi="Về danh mục">
+              Về danh mục
+            </a>
+          </div>
+        </article>
+
+        <aside class="detail-specs">
+          <h2 data-en="Technical Specifications" data-vi="Thông số kỹ thuật">
+            Thông số kỹ thuật
+          </h2>
+          <ul class="spec-list detail-spec-list">
+            {product.specs.map((spec) => (
+              <li>
+                <span class="spec-key" data-en={spec.label.en} data-vi={spec.label.vi}>
+                  {spec.label.vi}
+                </span>
+                <span class="spec-value" data-en={spec.value.en} data-vi={spec.value.vi}>
+                  {spec.value.vi}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p
+            class="detail-note"
+            data-en="Need integration details, compliance docs, or calibration options? Contact our specialist team."
+            data-vi="Cần tài liệu tích hợp, chứng chỉ tiêu chuẩn hoặc tùy chọn hiệu chuẩn? Liên hệ đội chuyên gia của chúng tôi."
+          >
+            Cần tài liệu tích hợp, chứng chỉ tiêu chuẩn hoặc tùy chọn hiệu chuẩn? Liên hệ đội chuyên gia của chúng tôi.
+          </p>
+        </aside>
+      </section>
+
+      <section class="catalog">
+        <div class="section-head">
+          <div>
+            <h2 data-en="Related Demo Devices" data-vi="Sản phẩm liên quan">
+              Sản phẩm liên quan
+            </h2>
+            <p
+              class="section-note"
+              data-en="Explore similar equipment before requesting your final quote."
+              data-vi="Khám phá thêm thiết bị tương tự trước khi gửi yêu cầu báo giá cuối cùng."
+            >
+              Khám phá thêm thiết bị tương tự trước khi gửi yêu cầu báo giá cuối cùng.
+            </p>
+          </div>
+        </div>
+
+        <div class="product-grid related-grid">
+          {
+            relatedProducts.map((item) => (
+              <article class="product-card">
+                <div class="product-top">
+                  <div class="product-icon" aria-hidden="true">{item.icon}</div>
+                  <div class="product-meta">
+                    <p class="chip" data-en={item.category.en} data-vi={item.category.vi}>
+                      {item.category.vi}
+                    </p>
+                    <p class="sku">
+                      <span data-en="SKU" data-vi="Mã SKU">Mã SKU</span>: {item.sku}
+                    </p>
+                  </div>
+                </div>
+                <h3 data-en={item.name.en} data-vi={item.name.vi}>{item.name.vi}</h3>
+                <p class="summary" data-en={item.summary.en} data-vi={item.summary.vi}>
+                  {item.summary.vi}
+                </p>
+                <div class="card-footer">
+                  <p
+                    class="price"
+                    data-price-usd={String(item.priceUSD)}
+                    data-price-vnd={String(item.priceVND)}
+                  ></p>
+                  <div class="card-actions">
+                    <a
+                      class="ghost-btn"
+                      href={`/products/${item.id}`}
+                      data-en="View Details"
+                      data-vi="Xem chi tiết"
+                    >
+                      Xem chi tiết
+                    </a>
+                    <button
+                      class="btn btn-primary btn-small"
+                      type="button"
+                      data-add-to-cart={item.id}
+                      data-en="Add to Cart"
+                      data-vi="Thêm vào giỏ"
+                    >
+                      Thêm vào giỏ
+                    </button>
+                  </div>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <p
+          data-en="MedNova Instruments demo storefront · Product detail mode enabled."
+          data-vi="Gian hàng demo MedNova Instruments · Đang ở chế độ trang chi tiết sản phẩm."
+        >
+          Gian hàng demo MedNova Instruments · Đang ở chế độ trang chi tiết sản phẩm.
+        </p>
+        <p>sales@mednova.demo · +84 28 9999 5588</p>
+      </footer>
+    </div>
+  </main>
+
+  <CartPanel />
+  <script type="application/json" id="products-data" set:html={JSON.stringify(products)}></script>
+</BaseLayout>

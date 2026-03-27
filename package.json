@@ -1,0 +1,23 @@
+{
+  "name": "projects-2026-medical-device-shop-astro",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "deploy:cloudflare": "npm run build && wrangler pages deploy ./dist --project-name medical-device-shop-astro",
+    "deploy:vercel": "npm run build && vercel --prod"
+  },
+  "dependencies": {
+    "astro": "^6.1.1"
+  },
+  "devDependencies": {
+    "vercel": "^32.3.0",
+    "wrangler": "^4.44.0"
+  }
+}
